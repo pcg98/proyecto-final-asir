@@ -36,7 +36,7 @@ public class BackupController {
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			//Lo muestro
 			Logger.info("Method: descargar --PARAMS user "+ user.getUsername() +" Archivo:" +archivo);
-	        InputStream inputStream = new FileInputStream(new File("C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\backups\\"+archivo));
+	        InputStream inputStream = new FileInputStream(new File("src/main/resources/backups/"+archivo));
 	        Logger.info("Method: Dowload"+archivo);
 	        //Consulta SQL
 	        /*JdbcTemplate.update(
@@ -61,7 +61,7 @@ public class BackupController {
 				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				//Lo muestro
 				Logger.info("Method: addContact --PARAMS userCredential " + user.getUsername());
-				Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\2º\\proyecto\\backup\\script_backup.bat");
+				Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_backup.bat");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -75,7 +75,7 @@ public class BackupController {
 				ModelAndView mav = new ModelAndView("contacts");
 				try {
 					//Pasamos directorio carpeta
-					File carpeta = new File("C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\backups");
+					File carpeta = new File("src/main/resources/backups");
 					//Creamos variable que tendra los archivos y se los asignamos
 					String[] archivos;
 					archivos = carpeta.list();
