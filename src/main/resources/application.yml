@@ -3,6 +3,8 @@ server:
     whitelabel:
       enabled: false
 spring:
+  thymeleaf:
+    cache: false
   datasource:
     url: jdbc:mysql://localhost:3306/spring?useSSL=false
     username: root

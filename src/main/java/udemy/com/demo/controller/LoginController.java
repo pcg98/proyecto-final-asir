@@ -1,29 +1,17 @@
 package udemy.com.demo.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
-
 import udemy.com.demo.repository.LogRepository;
 
 @Controller
@@ -50,7 +38,14 @@ public class LoginController {
 	public String loginCheck() {
 		Logger.info("Method: loginCheck");
 		Logger.info("Return: contacts view" );
-		//logRepository.save(new udemy.com.demo.entity.Log(new Date(), auth.getDetails().toString(), username, url));
+		//Esta es la parte que controla el login
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = "";
+		String url = "login";
+		if(null != auth && auth.isAuthenticated()) {
+			username = auth.getName();
+		}
+		logRepository.save(new udemy.com.demo.entity.Log(new Date(), auth.getDetails().toString(), url,  username));
 		return "redirect:/contacts/showcontacts";
 	}
 	

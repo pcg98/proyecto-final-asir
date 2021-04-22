@@ -1,6 +1,6 @@
 package udemy.com.demo.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,10 +24,14 @@ public class Log {
 	
 	@Column(name = "url")
 	private String url;
+	
+	@Column(name = "username")
+	private String username;
 
 	public int getId() {
 		return id;
 	}
+	
 
 	public void setId(int id) {
 		this.id = id;
@@ -57,14 +61,26 @@ public class Log {
 		this.url = url;
 	}
 
-	public Log(Date date, String details, String url) {
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public Log(Date date, String details, String url, String username) {
 		super();
 		this.date = date;
 		this.details = details;
 		this.url = url;
+		this.username = username;
 	}
 	public Log() {
-		
 	}
+	
 	
 }

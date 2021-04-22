@@ -54,7 +54,7 @@ public class BackupController {
 	    }
 		//Metodo Backup
 		@GetMapping("/backup")
-		public String backupContact() {
+		public void backupContact() {
 			Logger.info("Tarea programada ");
 			try {
 				//Saco usuario
@@ -66,8 +66,7 @@ public class BackupController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        return "contactform";
-	    }
+		}
 		//Metodo listar dir
 			@GetMapping("/listar_backups")
 			public ModelAndView listBackup() {
