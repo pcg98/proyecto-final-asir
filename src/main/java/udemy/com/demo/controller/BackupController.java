@@ -52,7 +52,7 @@ public class BackupController {
 	            inputStream.close();
 	        };
 	    }
-		//Metodo Backup
+		//Metodo para hacer Backup
 		@GetMapping("/backup")
 		public void backupContact() {
 			Logger.info("Tarea programada ");
@@ -86,30 +86,20 @@ public class BackupController {
 				}
 				return mav;
 			  }
-		//El backup
-		@RequestMapping(value = "/backup/{file_name}", method = RequestMethod.GET)
-		private static void restore(@PathVariable("file_name")String archivo, HttpServletResponse response) {
-			   try {
-			      Process p = Runtime
-			            .getRuntime()
-			            .exec("C:/Aplicaciones/wamp/bin/mysql/mysql5.1.36/bin/mysql -u root -password database");
-
-			      OutputStream os = p.getOutputStream();
-			      FileInputStream fis = new FileInputStream(archivo);
-			      byte[] buffer = new byte[1000];
-
-			      int leido = fis.read(buffer);
-			      while (leido > 0) {
-			         os.write(buffer, 0, leido);
-			         leido = fis.read(buffer);
-			      }
-
-			      os.flush();
-			      os.close();
-			      fis.close();
-
-			   } catch (Exception e) {
-			      e.printStackTrace();
-			   }
+		//Restaurar backup
+		@RequestMapping(value = "/restore/{file_name}", method = RequestMethod.GET)
+		private void restore(@PathVariable("file_name")String archivo, HttpServletResponse response) {
+			Logger.info("Tarea programada ");
+			try {
+				//Saco usuario
+				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				String ruta_backup="C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\backups\\"+archivo;
+				//Lo muestro
+				Logger.info("Method: addContact --PARAMS userCredential " + user.getUsername());
+				Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_restauracion.bat "+ruta_backup);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+		}
 }
