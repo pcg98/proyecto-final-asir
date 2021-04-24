@@ -48,6 +48,21 @@ public class LoginController {
 		logRepository.save(new udemy.com.demo.entity.Log(new Date(), auth.getDetails().toString(), url,  username));
 		return "redirect:/contacts/showcontacts";
 	}
+	//Aqui vamos cuando hacemos logout
+		@GetMapping({"/logout", "/login?logout"})
+		public String logout(){
+			Logger.info("Method: logout");
+			Logger.info("Return: login view" );
+			//Esta es la parte que controla el login
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String username = "";
+			String url = "logout";
+			if(null != auth && auth.isAuthenticated()) {
+				username = auth.getName();
+			}
+			logRepository.save(new udemy.com.demo.entity.Log(new Date(), auth.getDetails().toString(), url,  username));
+			return "redirect:/login?logout";
+		}
 	
 	/*
 	//Metodo descargar

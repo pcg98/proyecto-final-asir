@@ -61,7 +61,8 @@ public class BackupController {
 				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				//Lo muestro
 				Logger.info("Method: addContact --PARAMS userCredential " + user.getUsername());
-				Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_backup.bat");
+				//Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_backup.bat");
+				Runtime.getRuntime().exec("cmd /c start ./src/main/resources/scripts/script_backup.bat");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -100,6 +101,20 @@ public class BackupController {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+		}
+		//Eliminar backup
+		@RequestMapping(value = "/delete/{file_name}", method = RequestMethod.GET)
+		private void delete(@PathVariable("file_name")String archivo, HttpServletResponse response) {
+			Logger.info("Tarea programada ");
+			//Saco usuario
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String ruta_backup="./src/main/resources/backups/"+archivo;
+			File fichero = new File(ruta_backup);
+			if (fichero.delete()) {
+			   System.out.println("El fichero ha sido borrado satisfactoriamente");
+			}else {
+			   System.out.println("El fichero no puede ser borrado");
 			}
 		}
 }

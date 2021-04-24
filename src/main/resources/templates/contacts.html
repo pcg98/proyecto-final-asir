@@ -186,7 +186,9 @@
 						<a href="#" th:href="@{'/backup/restore/' + ${archivo}}">
 							<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
 						</a>
+						<a href="#" th:href="@{'/backup/delete/' + ${archivo}}">
 							<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+						</a>
 						</td>
 					</tr>
 				</tbody>
