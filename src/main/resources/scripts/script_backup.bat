@@ -7,6 +7,5 @@ set hora=%hora: =0%
 set minuto=%time:~3,2%
 set segundo=%time:~6,2% 
 
-mysqldump -hlocalhost -uroot deportes > C:\Users\Pablo\Desktop\Grado\Cursillos\Spring\proyecto\demo\src\main\resources\backups\copia_seguridad_%anio%%mes%%dia%_%hora%%minuto%_.sql
-echo exito
+mysqldump -hlocalhost -uroot deportes > C:\Users\Pablo\Desktop\Grado\Cursillos\Spring\proyecto\demo\src\main\resources\backups\%1
 exit

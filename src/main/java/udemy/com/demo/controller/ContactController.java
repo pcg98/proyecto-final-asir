@@ -51,7 +51,7 @@ public class ContactController {
 		//Carpeta
 		try {
 			//Pasamos directorio carpeta
-			File carpeta = new File("C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\backups");
+			File carpeta = new File("./src/main/resources/backups");
 			//Creamos variable que tendra los archivos y se los asignamos
 			String[] archivos;
 			archivos = carpeta.list();

@@ -1,0 +1,14 @@
+package udemy.com.demo.repository;
+
+import java.io.Serializable;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import udemy.com.demo.entity.Backup;
+import udemy.com.demo.entity.Contact;
+
+@Repository("backupRepository")
+public interface BackupRepository extends JpaRepository<Backup, Serializable>{
+	
+}

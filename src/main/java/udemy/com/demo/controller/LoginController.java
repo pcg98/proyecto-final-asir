@@ -46,10 +46,10 @@ public class LoginController {
 			username = auth.getName();
 		}
 		logRepository.save(new udemy.com.demo.entity.Log(new Date(), auth.getDetails().toString(), url,  username));
-		return "redirect:/contacts/showcontacts";
+		return "redirect:/backup/listar_backups";
 	}
 	//Aqui vamos cuando hacemos logout
-		@GetMapping({"/logout", "/login?logout"})
+		@GetMapping("/disconect")
 		public String logout(){
 			Logger.info("Method: logout");
 			Logger.info("Return: login view" );
@@ -61,7 +61,7 @@ public class LoginController {
 				username = auth.getName();
 			}
 			logRepository.save(new udemy.com.demo.entity.Log(new Date(), auth.getDetails().toString(), url,  username));
-			return "redirect:/login?logout";
+			return "redirect:/logout";
 		}
 	
 	/*

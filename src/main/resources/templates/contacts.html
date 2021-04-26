@@ -176,17 +176,17 @@
 				</thead>
 				<tbody>
 					<tr th:each="archivo : ${archivos}">
-						<td th:text="${archivo}"></td>
-						<td><!--Usuario --></td>
-						<td><!--Fecha --></td>
+						<td th:text="${archivo.archivo}"></td>
+						<td th:text="${archivo.usuario}"><!--Usuario --></td>
+						<td th:text="${archivo.fecha}"><!--Fecha --></td>
 						<td>
-						<a href="#" th:href="@{'/backup/download/' + ${archivo}}">
+						<a href="#" th:href="@{'/backup/download/' + ${archivo.archivo}}">
 							<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></button>
 						</a>
-						<a href="#" th:href="@{'/backup/restore/' + ${archivo}}">
+						<a href="#" th:href="@{'/backup/restore/' + ${archivo.archivo}}">
 							<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
 						</a>
-						<a href="#" th:href="@{'/backup/delete/' + ${archivo}}">
+						<a href="#" th:href="@{'/backup/delete/' + ${archivo.id}}">
 							<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 						</a>
 						</td>
@@ -199,7 +199,7 @@
 			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Add contact</button>
 		</a>
 		
-		<form th:action="@{/logout}" method="POST">
+		<form th:action="@{/disconect}" method="POST">
 			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</button>
 		</a>
 	</div>
