@@ -67,7 +67,7 @@ public class BackupController {
     }
 		//Metodo para hacer Backup
 		@GetMapping("/backup")
-		public void backupContact() {
+		public String backupContact() {
 			Logger.info("Tarea programada ");
 			try {
 				//Saco usuario
@@ -80,13 +80,16 @@ public class BackupController {
 				Logger.info("Method: addContact --PARAMS userCredential " + auth.getName());
 				//Nombre archivo
 				String fichero = new SimpleDateFormat("'copia_seguridad_'yyyy-MM-dd_hh-mm-ss'.sql'").format(new Date());
+				File file=new File("picassa3");
+				String filename=file.getAbsolutePath();
 				//Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_backup.bat");
-				Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_backup.bat "+fichero);
+				Runtime.getRuntime().exec("cmd /c start cd ./src/main/resources/scripts/script_backup.bat "+fichero);
 				backupRepository.save(new udemy.com.demo.entity.Backup(fichero, username, new Date()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			return "redirect:/backup/listar_backups";
 		}
 		/*Metodo listar dir
 			@GetMapping("/listar_backups")
@@ -112,6 +115,8 @@ public class BackupController {
 		public ModelAndView listBackup() {
 			Logger.info("Tarea programada ");
 			ModelAndView mav = new ModelAndView("contacts");
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			mav.addObject("username", user.getUsername());
 			try {
 				mav.addObject("archivos", backupRepository.findAll());
 			}
@@ -123,7 +128,7 @@ public class BackupController {
 		  }
 		//Restaurar backup
 		@RequestMapping(value = "/restore/{file_name}", method = RequestMethod.GET)
-		private void restore(@PathVariable("file_name")String archivo, HttpServletResponse response) {
+		private String restore(@PathVariable("file_name")String archivo, HttpServletResponse response) {
 			Logger.info("Tarea programada ");
 			try {
 				//Saco usuario
@@ -136,10 +141,11 @@ public class BackupController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			return "redirect:/backup/listar_backups";
 		}
 		//Eliminar backup
 		@RequestMapping(value = "/delete/{file_id}", method = RequestMethod.GET)
-		private void delete(@PathVariable("file_id")int identificador, HttpServletResponse response) {
+		private String delete(@PathVariable("file_id")int identificador, HttpServletResponse response) {
 			Logger.info("Tarea programada ");
 			//Saco usuario
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -154,5 +160,6 @@ public class BackupController {
 			}else {
 			   System.out.println("El fichero no puede ser borrado");
 			}
+			return "redirect:/backup/listar_backups";
 		}
 }
