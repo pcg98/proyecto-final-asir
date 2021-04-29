@@ -9,11 +9,11 @@
 		<version>2.4.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>udemy.com</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>proyecto.com</groupId>
+	<artifactId>Cerros</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Cerros</name>
+	<description>Proyecto final</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
