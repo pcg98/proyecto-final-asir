@@ -127,7 +127,7 @@
 				<tbody>
 					<tr th:each="user : ${users}">
 						<td th:text="${user.username}"></td>
-						<td th:each="rol : ${user.userRole}"><span th:text="${rol}"></span></td>
+						<td th:each="rol : ${user.userRole}"><span th:text="${rol.role}"></span></td>
 						<td th:text="${user.enabled}"><!--Fecha --></td>
 						<td>
 						<a href="#" th:href="@{'/user/edit/' + ${user.username}}">
