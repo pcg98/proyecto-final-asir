@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8"/>
 
-    <title>Backend Ninja - Signin</title>
+    <title>Manejo Base Datos - Backups</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
@@ -96,7 +96,7 @@
 	          </a>
 	        </li>
 	        <li>
-	          <a href="#" class="nav-link text-white">
+	          <a href="javascript: document.logoutForm.submit()" class="nav-link text-white" role="menuitem">
 	            <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"/></svg>
 	            Desconectarse
 	          </a>
@@ -204,6 +204,10 @@
 		</form>
 	</div>
 	<script th:src="@{/assets/dist/js/bootstrap.bundle.min.js}"></script>
+	<!-- Para desconectarse, es codigo javascript -->
+	<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+      <input hidden type="submit" value="Sign Out"/>
+   </form> 
 
 
 </body>

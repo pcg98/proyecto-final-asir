@@ -8,14 +8,14 @@ public class ViewConstant {
 	//Ruta Backup Windows
 	public static final String ARCHIVOS_BACKUPS="C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\backups\\";
 	//Rutas Scripts Windows
-	public static final String BACKUP_SC = "./src/main/resources/scripts/script_backup.bat";
+	public static final String BACKUP_SC = "C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_backup.bat";
 	public static final String RESTORE_SC= "C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_restauracion.bat";
 	//Rutas Vistas
-	public static final String LIST_BACKUP ="contacts";
+	public static final String VIEW_BACKUP ="backups";
 	public static final String USER_FORM ="contactform";
-	public static final String LIST_USER ="users";
+	public static final String VIEW_USER ="users";
 	//Ruta absoluta proyecto
-	public static final String PROYECTO = "C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo";
+	public static final String PROYECTO = "C:/Users/Pablo/Desktop/Grado/Cursillos/Spring/proyecto/demo/";
 	
 	
 }

@@ -81,10 +81,8 @@ public class BackupController {
 				Logger.info("Method: addContact --PARAMS userCredential " + auth.getName());
 				//Nombre archivo
 				String fichero = new SimpleDateFormat("'copia_seguridad_'yyyy-MM-dd_hh-mm-ss'.sql'").format(new Date());
-				File file=new File("picassa3");
-				String filename=file.getAbsolutePath();
 				//Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_backup.bat");
-				Runtime.getRuntime().exec("cmd /c start cd ./src/main/resources/scripts/script_backup.bat "+fichero);
+				Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_backup.bat "+fichero);
 				backupRepository.save(new proyecto.com.entity.Backup(fichero, username, new Date()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -115,7 +113,7 @@ public class BackupController {
 		@GetMapping("/listar_backups")
 		public ModelAndView listBackup() {
 			Logger.info("Tarea programada ");
-			ModelAndView mav = new ModelAndView(ViewConstant.LIST_BACKUP);
+			ModelAndView mav = new ModelAndView(ViewConstant.VIEW_BACKUP);
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			mav.addObject("username", user.getUsername());
 			try {
@@ -134,10 +132,10 @@ public class BackupController {
 			try {
 				//Saco usuario
 				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-				String ruta_backup="C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\backups\\"+archivo;
+				String ruta_backup=ViewConstant.PROYECTO+"src/main/resources/backups/"+archivo;
 				//Lo muestro
 				Logger.info("Method: addContact --PARAMS userCredential " + user.getUsername());
-				Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_restauracion.bat "+ruta_backup);
+				Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_restauracion.bat "+ruta_backup);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

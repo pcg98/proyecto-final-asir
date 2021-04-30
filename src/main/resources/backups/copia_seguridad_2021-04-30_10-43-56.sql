@@ -127,7 +127,7 @@ CREATE TABLE `proveedores` (
 
 LOCK TABLES `proveedores` WRITE;
 /*!40000 ALTER TABLE `proveedores` DISABLE KEYS */;
-INSERT INTO `proveedores` VALUES ('HEA','\0H\0e\0a\0d','\06\06\02\02\08\05\03\09\00','\0w\0w\0w\0.\0h\0e\0a\0d\0.\0e\0s'),('ADI','\0A\0d\0i\0d\0a\0s','\06\06\08\02\08\05\03\09\01','\0w\0w\0w\0.\0a\0d\0i\0d\0a\0s\0.\0e\0s'),('JOM','\0J\0o\0m\0a','\06\06\02\02\08\05\03\09\02','\0w\0w\0w\0.\0j\0o\0m\0a\0-\0e\0s\0.\0e\0s'),('MIZ','\0M\0i\0z\0u\0n\0o','\06\06\02\02\08\05\03\09\03','\0w\0w\0w\0.\0m\0i\0z\0u\0n\0o\0.\0e\0s'),('NIK','\0N\0i\0k\0e','\06\06\02\02\08\05\03\09\04','\0w\0w\0w\0.\0n\0i\0k\0e\0.\0e\0s'),('REE','\0R\0e\0e\0b\0o\0k','\06\06\02\02\08\05\03\09\05','\0w\0w\0w\0.\0r\0e\0e\0b\0o\0k'),('PEP','PepePhone','662285399','www.pepephone.es');
+INSERT INTO `proveedores` VALUES ('HEA','\0H\0e\0a\0d','\06\06\02\02\08\05\03\09\00','\0w\0w\0w\0.\0h\0e\0a\0d\0.\0e\0s'),('ADI','\0A\0d\0i\0d\0a\0s','\06\06\08\02\08\05\03\09\01','\0w\0w\0w\0.\0a\0d\0i\0d\0a\0s\0.\0e\0s'),('JOM','\0J\0o\0m\0a','\06\06\02\02\08\05\03\09\02','\0w\0w\0w\0.\0j\0o\0m\0a\0-\0e\0s\0.\0e\0s'),('MIZ','\0M\0i\0z\0u\0n\0o','\06\06\02\02\08\05\03\09\03','\0w\0w\0w\0.\0m\0i\0z\0u\0n\0o\0.\0e\0s'),('NIK','\0N\0i\0k\0e','\06\06\02\02\08\05\03\09\04','\0w\0w\0w\0.\0n\0i\0k\0e\0.\0e\0s'),('REE','\0R\0e\0e\0b\0o\0k','\06\06\02\02\08\05\03\09\05','\0w\0w\0w\0.\0r\0e\0e\0b\0o\0k'),('PEP','PepePhone','662285399','www.pepephone.es'),('DEC',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `proveedores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,4 +184,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-22 18:12:42
+-- Dump completed on 2021-04-30 10:43:56

@@ -2,6 +2,7 @@ package proyecto.com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import proyecto.com.repository.UserRepository;
 import proyecto.com.constant.ViewConstant;
 @Controller
 @RequestMapping("/user")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
 	@Autowired
 	@Qualifier("userRepository")
@@ -18,7 +20,7 @@ public class UserController {
 	//Listar
 	@GetMapping("/list")
 	public ModelAndView listUsers() {
-		ModelAndView mav = new ModelAndView(ViewConstant.LIST_USER);
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_USER);
 		mav.addObject("users", userRepository.findAll());
 		return mav;
 	}
