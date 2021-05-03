@@ -141,8 +141,10 @@
 				</tbody>
 			</table>
 		</div>
+		 <div th:if="${error != null}" class="alert alert-danger" role="alert">Error insertando usuarios</div>
+        <div th:if="${exito != null}" class="alert alert-info" role="alert">Usuario añadido exitosamente</div>
 		
-		<a href="#" th:href="@{/user/add}">
+		<a href="#" th:href="@{/user/userform}">
 			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Add user</button>
 		</a>
 		

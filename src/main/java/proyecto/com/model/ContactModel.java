@@ -1,6 +1,5 @@
 package proyecto.com.model;
 
-import javax.persistence.Column;
 
 // TODO: Auto-generated Javadoc
 /**

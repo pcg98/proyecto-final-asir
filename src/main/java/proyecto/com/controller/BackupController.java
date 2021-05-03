@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,7 +28,6 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import proyecto.com.constant.ViewConstant;
 import proyecto.com.entity.Backup;
 import proyecto.com.repository.BackupRepository;
-import proyecto.com.repository.LogRepository;
 
 @Controller
 @RequestMapping("/backup")

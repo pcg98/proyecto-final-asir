@@ -25,7 +25,6 @@ public class UserService implements UserDetailsService{
 
 	@Autowired
 	@Qualifier("userRepository")
-	
 	private UserRepository userRepository;
 	
 	@Override

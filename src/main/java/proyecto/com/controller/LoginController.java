@@ -31,7 +31,7 @@ public class LoginController {
 		Logger.info("Method: showLoginForm --PARAMS error: " +error+ " Model: " +model);
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
-		Logger.info("Return: login " );
+		Logger.info("Return: login ");
 		return "login";
 	}
 	//Aqui vamos cuando hacemos loggin pero no esta indicado aqui
