@@ -3,6 +3,7 @@ package proyecto.com.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,7 +25,7 @@ public class User {
 	@Column(name="enabled", nullable = false)
 	private boolean enabled;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.ALL})
 	private Set<UserRole> userRole = new HashSet<UserRole>();
 	
 	public User(String user, String password, boolean enabled) {

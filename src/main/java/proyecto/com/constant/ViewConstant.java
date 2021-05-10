@@ -16,6 +16,10 @@ public class ViewConstant {
 	public static final String VIEW_USER ="users";
 	//Ruta absoluta proyecto
 	public static final String PROYECTO = "C:/Users/Pablo/Desktop/Grado/Cursillos/Spring/proyecto/demo/";
-	
-	
+	//Linux
+	public static final String PROYECTOL= "~/Escritorio/proyecto/proyecto_bases";
+	//Rutas Scripts Linux
+	public static final String BACKUP_SCL ="~/Escritorio/proyecto/proyecto_bases/src/main/resources/scripts/script_backup.bat";
+	public static final String RESTORE_SCL= "~/Escritorio/proyecto/proyecto_bases/src/main/resources/scripts/script_restauracion.bat";
+	public static final String ARCHIVOS_BACKUPSL="~/Escritorio/proyecto/proyecto_bases/src/main/resources/backups";
 }

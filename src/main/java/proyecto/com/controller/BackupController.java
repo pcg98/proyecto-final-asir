@@ -50,11 +50,6 @@ public class BackupController {
 		Logger.info("Method: descargar --PARAMS user "+ user.getUsername() +" Archivo:" +archivo);
         InputStream inputStream = new FileInputStream(new File("src/main/resources/backups/"+archivo));
         Logger.info("Method: Dowload"+archivo);
-        //Consulta SQL
-        /*JdbcTemplate.update(
-        	    "INSERT INTO schema.tableName (column1, column2) VALUES (?, ?)",
-        	    var1, var2
-        	);*/
         return outputStream -> {
             int nRead;
             byte[] data = new byte[1024];
@@ -66,9 +61,9 @@ public class BackupController {
     }
 		//Metodo para hacer Backup
 		@GetMapping("/backup")
-		public String backupContact() {
+		public String backupContact() throws IOException {
 			Logger.info("Tarea programada ");
-			try {
+
 				//Saco usuario
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				String username ="";
@@ -79,13 +74,12 @@ public class BackupController {
 				Logger.info("Method: addContact --PARAMS userCredential " + auth.getName());
 				//Nombre archivo
 				String fichero = new SimpleDateFormat("'copia_seguridad_'yyyy-MM-dd_hh-mm-ss'.sql'").format(new Date());
-				//Runtime.getRuntime().exec("cmd /c start C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_backup.bat");
-				Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_backup.bat "+fichero);
+				/*Windows
+				Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_backup.bat "+fichero);*/
+				//Linux BACKUP_SCL
+				ProcessBuilder pb = new ProcessBuilder("src/main/resources/scripts/script_backup.sh", fichero);
+				Process p = pb.start();
 				backupRepository.save(new proyecto.com.entity.Backup(fichero, username, new Date()));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			return "redirect:/backup/listar_backups";
 		}
 		/*Metodo listar dir
@@ -125,19 +119,19 @@ public class BackupController {
 		  }
 		//Restaurar backup
 		@RequestMapping(value = "/restore/{file_name}", method = RequestMethod.GET)
-		private String restore(@PathVariable("file_name")String archivo, HttpServletResponse response) {
+		private String restore(@PathVariable("file_name")String archivo, HttpServletResponse response) throws IOException {
 			Logger.info("Tarea programada ");
-			try {
 				//Saco usuario
 				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-				String ruta_backup=ViewConstant.PROYECTO+"src/main/resources/backups/"+archivo;
+				String ruta_backup=ViewConstant.ARCHIVOS_BACKUPSL+"/"+archivo;
 				//Lo muestro
 				Logger.info("Method: addContact --PARAMS userCredential " + user.getUsername());
+				/*Ejecuccion en windows
 				Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_restauracion.bat "+ruta_backup);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				*/
+				//Linux RESTAURAR
+				ProcessBuilder pb = new ProcessBuilder("src/main/resources/scripts/script_restauracion.sh", archivo);
+				Process p = pb.start();
 			return "redirect:/backup/listar_backups";
 		}
 		//Eliminar backup
