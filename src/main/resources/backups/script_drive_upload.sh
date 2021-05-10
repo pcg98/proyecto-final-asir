@@ -1,2 +1,2 @@
 #!/bin/bash
-drive push -quiet ~/Escritorio/proyecto/proyecto_bases/src/main/resources/backups/$1 
+drive push -quiet ~/Escritorio/proyecto/proyecto-gestion-base/src/main/resources/backups/$1 
