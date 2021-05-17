@@ -106,12 +106,12 @@
 	  </div>
 	</header>
 	
-	
-	<!--Contenido-->
+	 
 	<div class="container">
 	
 		<h1>Hello, <span th:text="${username}"></span>!</h1>
 		<br/>
+		<!-- 
 		<div class="panel panel-default">
 			<div class="panel-heading"></div>
 			<table class="table">
@@ -162,6 +162,7 @@
 				</tbody>
 			</table>
 		</div>
+		-->
 		<div class="panel panel-default">
 			<div class="panel-heading"></div>
 			<table id="dtDynamicVerticalScrollExample" class="table table-striped table-bordered table-sm" cellspacing="0"
@@ -171,7 +172,8 @@
 						<th>Archivo</th>
 						<th>Usuario</th>
 						<th>Fecha</th>
-						<th>Accion</th>
+						<th>Action local</th>
+						<th>Action drive</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -179,16 +181,38 @@
 						<td th:text="${archivo.archivo}"></td>
 						<td th:text="${archivo.usuario}"><!--Usuario --></td>
 						<td th:text="${archivo.fecha}"><!--Fecha --></td>
+						<!--Local -->
 						<td>
-						<a href="#" th:href="@{'/backup/download/' + ${archivo.archivo}}">
-							<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></button>
-						</a>
-						<a sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/backup/restore/' + ${archivo.archivo}}">
-							<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
-						</a>
-						<a sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/backup/delete/' + ${archivo.id}}">
-							<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-						</a>
+							<span th:if="${archivo.local}">
+								<a href="#" th:href="@{'/backup/download/' + ${archivo.archivo}}">
+									<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></button>
+								</a>
+								<a sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/backup/restore/' + ${archivo.archivo}}">
+									<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
+								</a>
+								<a sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/backup/delete/' + ${archivo.id}}">
+									<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+								</a>
+								<!-- Este boton es para descargar su esta en local pero no drive -->
+								<a th:if="${archivo.drive == false and archivo.local == true}" href="#" th:href="@{'/drive/upload/' + ${archivo.id}}">
+									<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span></button>
+								</a>
+							</span>
+						</td>
+						<!--Nube -->
+						<td>
+							<span th:if="${archivo.drive}">
+								<a href="#" th:href="@{'/drive/download/' + ${archivo.id}}">
+									<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></button>
+								</a>
+								<a sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/drive/delete/' + ${archivo.id}}">
+									<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+								</a>
+								<!-- Este boton es para descargar si esta en drive pero no local -->
+								<a th:if="${archivo.drive == true and archivo.local == false}" href="#" th:href="@{'/drive/download/' + ${archivo.id}}">
+									<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span></button>
+								</a>
+							</span>
 						</td>
 					</tr>
 				</tbody>

@@ -28,6 +28,8 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import proyecto.com.constant.ViewConstant;
 import proyecto.com.entity.Backup;
 import proyecto.com.repository.BackupRepository;
+import proyecto.com.service.FileService;
+import proyecto.com.service.LogService;
 
 @Controller
 @RequestMapping("/backup")
@@ -38,48 +40,56 @@ public class BackupController {
 	@Autowired
 	@Qualifier("backupRepository")
 	private BackupRepository backupRepository;
+	//Logger
+	@Autowired
+	@Qualifier("logService")
+	private LogService logService;
+	//Integridad archivos
+	@Autowired
+	@Qualifier("fileService")
+	private FileService fileService;
+	
 	//Metodo descargar
 	@RequestMapping(value = "/download/{file_name}", method = RequestMethod.GET)
     public StreamingResponseBody getSteamingFile(@PathVariable("file_name")String archivo, HttpServletResponse response) throws IOException {
-
-        response.setContentType("text/sql;charset=UTF-8");
+		response.setContentType("text/sql;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=\""+archivo+"\"");
-      //Saco usuario
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//Lo muestro
-		Logger.info("Method: descargar --PARAMS user "+ user.getUsername() +" Archivo:" +archivo);
-        InputStream inputStream = new FileInputStream(new File("src/main/resources/backups/"+archivo));
-        Logger.info("Method: Dowload"+archivo);
-        return outputStream -> {
-            int nRead;
-            byte[] data = new byte[1024];
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                outputStream.write(data, 0, nRead);
-            }
-            inputStream.close();
-        };
+        
+        String action = "download_local";
+		logService.debug(action, archivo);
+		
+	    InputStream inputStream = new FileInputStream(new File("src/main/resources/backups/"+archivo));
+	    Logger.info("Method: Dowload"+archivo);
+	    return outputStream -> {
+	        int nRead;
+	        byte[] data = new byte[1024];
+	        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+	            outputStream.write(data, 0, nRead);
+	        }
+	        inputStream.close();
+	    };
     }
 		//Metodo para hacer Backup
 		@GetMapping("/backup")
 		public String backupContact() throws IOException {
-			Logger.info("Tarea programada ");
-
-				//Saco usuario
-				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-				String username ="";
-				if(null != auth && auth.isAuthenticated()) {
-					username = auth.getName();
-				}
-				//Lo muestro
-				Logger.info("Method: addContact --PARAMS userCredential " + auth.getName());
-				//Nombre archivo
-				String fichero = new SimpleDateFormat("'copia_seguridad_'yyyy-MM-dd_hh-mm-ss'.sql'").format(new Date());
-				/*Windows
-				Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_backup.bat "+fichero);*/
-				//Linux BACKUP_SCL
-				ProcessBuilder pb = new ProcessBuilder("src/main/resources/scripts/script_backup.sh", fichero);
-				Process p = pb.start();
-				backupRepository.save(new proyecto.com.entity.Backup(fichero, username, new Date()));
+			//Nombre archivo
+			String fichero = new SimpleDateFormat("'copia_seguridad_'yyyy-MM-dd_hh-mm-ss'.sql'").format(new Date());
+			/*Windows
+			Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_backup.bat "+fichero);*/
+			//Linux BACKUP_SCL Local
+			ProcessBuilder plocal = new ProcessBuilder("src/main/resources/scripts/script_backup.sh", fichero);
+			plocal.start();
+			//La nube
+			ProcessBuilder pdrive = new ProcessBuilder("src/main/resources/scripts/script_drive_upload.sh", fichero);
+			pdrive.start();
+			//Saco usuario
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String username = auth.getName();
+			backupRepository.save(new proyecto.com.entity.Backup(fichero, username, new Date(),true,true));
+			
+			String action = "new_backup";
+			logService.debug(action, fichero);
+			
 			return "redirect:/backup/listar_backups";
 		}
 		/*Metodo listar dir
@@ -120,34 +130,31 @@ public class BackupController {
 		//Restaurar backup
 		@RequestMapping(value = "/restore/{file_name}", method = RequestMethod.GET)
 		private String restore(@PathVariable("file_name")String archivo, HttpServletResponse response) throws IOException {
-			Logger.info("Tarea programada ");
-				//Saco usuario
-				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-				String ruta_backup=ViewConstant.ARCHIVOS_BACKUPSL+"/"+archivo;
-				//Lo muestro
-				Logger.info("Method: addContact --PARAMS userCredential " + user.getUsername());
-				/*Ejecuccion en windows
-				Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_restauracion.bat "+ruta_backup);
-				*/
-				//Linux RESTAURAR
-				ProcessBuilder pb = new ProcessBuilder("src/main/resources/scripts/script_restauracion.sh", archivo);
-				Process p = pb.start();
+			/*Ejecuccion en windows
+			Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_restauracion.bat "+ruta_backup);
+			*/
+			//Linux RESTAURAR
+			ProcessBuilder pb = new ProcessBuilder("src/main/resources/scripts/script_restauracion.sh", archivo);
+			pb.start();
+			
+			String action = "upload_drive";
+			logService.debug(action, archivo);
+			
 			return "redirect:/backup/listar_backups";
 		}
 		//Eliminar backup
 		@RequestMapping(value = "/delete/{file_id}", method = RequestMethod.GET)
 		private String delete(@PathVariable("file_id")int identificador, HttpServletResponse response) {
-			Logger.info("Tarea programada ");
-			//Saco usuario
-			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Backup archivo = backupRepository.getOne(identificador);
-			Logger.info("Method: delect --PARAMS archivo " + archivo.getArchivo() + " id " +identificador);
 			String ruta_backup="./src/main/resources/backups/"+archivo.getArchivo();
+			//debug
+			String action = "delete_local_backup";
 			File fichero = new File(ruta_backup);
 			if (fichero.delete()) {
 			   System.out.println("El fichero ha sido borrado satisfactoriamente");
-			   backupRepository.deleteById(identificador);
 			   //backupRepository.deleteByArchivo(archivo);
+			   archivo.setLocal(false);
+			   logService.debug(action, archivo.getArchivo());
 			}else {
 			   System.out.println("El fichero no puede ser borrado");
 			}

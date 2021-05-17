@@ -30,6 +30,7 @@ import proyecto.com.model.UserModel;
 @RequestMapping("/user")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
+	
 	@Autowired
 	@Qualifier("userRepository")
 	private UserRepository userRepository;
