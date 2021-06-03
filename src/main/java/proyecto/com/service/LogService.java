@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Service;
+import proyecto.com.entity.User;
 import proyecto.com.controller.LoginController;
 import proyecto.com.entity.Backup;
 import proyecto.com.repository.LogRepository;

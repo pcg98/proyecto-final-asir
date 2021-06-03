@@ -10,13 +10,13 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import proyecto.com.entity.Backup;
+import proyecto.com.entity.User;
 import proyecto.com.repository.BackupRepository;
 import proyecto.com.service.FileService;
 import proyecto.com.service.LogService;

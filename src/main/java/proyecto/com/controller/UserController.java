@@ -22,10 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import proyecto.com.repository.UserRepository;
-import proyecto.com.repository.UserRoleRepository;
+import proyecto.com.service.implementation.UsuarioServiceImpl;
 import proyecto.com.constant.ViewConstant;
 import proyecto.com.entity.User;
-import proyecto.com.entity.UserRole;
 import proyecto.com.model.UserModel;
 @Controller
 @RequestMapping("/user")
@@ -36,11 +35,15 @@ public class UserController {
 	@Qualifier("userRepository")
 	private UserRepository userRepository;
 	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UsuarioServiceImpl userServiceImpl;
 	
+	/*
 	@Autowired
 	@Qualifier("userRoleRepository")
 	private UserRoleRepository userRoleRepository;
-
+	*/
 	
 	private static final Log Logger = LogFactory.getLog(LoginController.class);
 	
@@ -58,33 +61,35 @@ public class UserController {
 	//Mostrar formulario
 	@GetMapping("/userform")
 	public String userForm(Model model) {
-		model.addAttribute("UserModel", new UserModel());
+		model.addAttribute("User", new User());
 		return ViewConstant.USER_FORM;
 	}
 	//Crear
 	@PostMapping("/add-user")
-	public String createUser(@ModelAttribute("UserModel") UserModel userModel,
+	public String createUser(@ModelAttribute("User") User user,
 			Model model) {
-		Logger.info("Method: addUser --PARAMS user: " +userModel.toString()+ " Model: " +model);
-		userModel.setPassword(pe.encode(userModel.getPassword()));
-		//Creo objeto usuario
-		User usuario = new User(userModel.getUsername(), userModel.getPassword(), userModel.isEnabled());
-		//Creo objeto userRole
-		UserRole userRole = new UserRole(usuario, userModel.getUserRole());
-		if(null != userRepository.save(usuario) && null != userRoleRepository.save(userRole)) {
+		Logger.info("Method: addUser --PARAMS user: " +user.toString()+ " Model: " +model);
+		user.setPassword(pe.encode(user.getPassword()));
+		if(null != userRepository.save(user)) {
 			model.addAttribute("exito", 1);
 		}else {
 			model.addAttribute("error", 1);
 		}
 		return "redirect:/user/list";
 	}
-	//Borrar
-	@RequestMapping(value = "/delete/{username}", method = RequestMethod.GET)
-	private String delete(@PathVariable("username")String user, HttpServletResponse response,
+	//Delete
+	@GetMapping(value = "/delete/{id}")
+	private String delete(@PathVariable("id")int user, HttpServletResponse response,
 			Model model) {
-		Logger.info("Method: delete --PARAMS user: " +user);
-		//userRepository.deleteById(user);
+		userServiceImpl.removeUser(user);
+		User usuario= userRepository.findById(user);
+		Logger.info("Method: user" +user);
 		model.addAttribute("exito", 1);
 		return "redirect:/user/list";
 	} 
+	//Update
+	@PostMapping(value = "/update/{id}")
+	private String update() {
+		return "Hello moto";
+	}
 }

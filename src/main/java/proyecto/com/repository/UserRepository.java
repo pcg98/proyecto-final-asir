@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import proyecto.com.entity.User;
 @Repository("userRepository")
-public interface UserRepository extends JpaRepository<User, String>{
+public interface UserRepository extends JpaRepository<User, Long>{
 	
 	public abstract User findByUsername(String username);	
 
 	public abstract void deleteByUsername(String username); 
 	
-	void deleteById(String username);
+	User findById(int id);
 
 }

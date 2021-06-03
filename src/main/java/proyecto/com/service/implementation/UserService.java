@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import proyecto.com.entity.UserRole;
+
 import proyecto.com.repository.UserRepository;
 
 
@@ -28,22 +28,8 @@ public class UserService implements UserDetailsService{
 	private UserRepository userRepository;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		proyecto.com.entity.User user = userRepository.findByUsername(username);
-		List<GrantedAuthority> authorities = buildAuthorities(user.getUserRole());
-		return buildUser(user, authorities);
-	}
-	private User buildUser(proyecto.com.entity.User user, List<GrantedAuthority> authorities) {
-		return new User(user.getUsername(), user.getPassword(), user.isEnabled(),
-				true, true, true, authorities);
-	}
-	private List<GrantedAuthority> buildAuthorities (Set<UserRole> userRoles){
-		Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-		
-		for(UserRole userRole : userRoles) {
-			auths.add(new SimpleGrantedAuthority(userRole.getRole()));
-		}
-		return new ArrayList<GrantedAuthority>(auths);
-	}
+    public UserDetails loadUserByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
 	
 }

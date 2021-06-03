@@ -9,7 +9,7 @@ import proyecto.com.model.UserModel;
 public class ConvertUserModel {
 	public User convertUserModel2User(UserModel userModel) {
 		User user = new User();
-		user.setEnabled(userModel.isEnabled());
+		//user.setEnabled(userModel.isEnabled());
 		user.setPassword(userModel.getPassword());
 		user.setUsername(userModel.getUsername());
 		return user;

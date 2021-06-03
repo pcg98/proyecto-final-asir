@@ -1,50 +1,78 @@
 package proyecto.com.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
-@Table(name="users")
-public class User {
-	
-	@Id
-	@Column(name="username", unique = true, nullable=false, length = 45)
-	private String username;
-	
-	@Column(name="password", nullable=false, length = 60)
-	private String password;
-	
-	@Column(name="enabled", nullable = false)
-	private boolean enabled;
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval=true)
-	private Set<UserRole> userRole = new HashSet<UserRole>();
-	
-	public User(String user, String password, boolean enabled) {
+public class User implements UserDetails{
+    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    private Long id;
+    private String username;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
+
+    //Getters y Setters
+    
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority(rol.toString()));
+        return roles;
+    }
+
+    public User() {
 		super();
-		this.username = user;
-		this.password = password;
-		this.enabled = enabled;
 	}
-	
-	public User(String user, String password, boolean enabled, Set<UserRole> userRole) {
+
+	public User(Long id, String username, String password, Rol rol) {
 		super();
-		this.username = user;
+		this.id = id;
+		this.username = username;
 		this.password = password;
-		this.enabled = enabled;
-		this.userRole = userRole;
+		this.rol = rol;
 	}
-	
-	public User() {
-		
+
+	public User(Long id, String username, String password) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", rol=" + rol + "]";
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getUsername() {
@@ -63,27 +91,32 @@ public class User {
 		this.password = password;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
+	public Rol getRol() {
+		return rol;
 	}
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public Set<UserRole> getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(Set<UserRole> userRole) {
-		this.userRole = userRole;
+	public void setRol(Rol rol) {
+		this.rol = rol;
 	}
 
 	@Override
-	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", enabled=" + enabled + ", userRole="
-				+ userRole + "]";
-	}
-	
-	
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+    
 }

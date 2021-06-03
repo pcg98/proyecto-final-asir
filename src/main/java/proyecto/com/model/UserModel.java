@@ -1,6 +1,6 @@
 package proyecto.com.model;
 
-import proyecto.com.entity.UserRole;
+
 
 public class UserModel {
 	

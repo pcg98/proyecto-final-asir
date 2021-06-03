@@ -18,17 +18,12 @@
 		<div class="container">
 			<h1>User Form</h1>
 			<br/>
-			<form action="#" th:action="@{/user/add-user}" th:object="${UserModel}" method="post">
+			<form action="#" th:action="@{/user/add-user}" th:object="${User}" method="post">
 				Username: <input type="text" th:field="*{username}" class="form-control"></input>
 				<br/>
 				Password: <input type="password" th:field="*{password}" class="form-control"></input>
 				<br/>
-				Enabled: <select th:field="*{enabled}">
-						    <option th:value="'1'" th:text="Activado"></option>
-						    <option th:value="'0'" th:text="Desactivado"></option>
-						</select>
-				<br/>
-				Rol: <select th:field="*{userRole}">
+				Rol: <select th:field="*{rol}">
 					    <option th:value="'ROLE_USER'" th:text="User"></option>
 					    <option th:value="'ROLE_ADMIN'" th:text="Admin"></option>
 					</select>

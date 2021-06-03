@@ -5,11 +5,12 @@ import java.io.Serializable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import proyecto.com.entity.Rol;
 import proyecto.com.entity.User;
-import proyecto.com.entity.UserRole;
-
+/*
 @Repository("userRoleRepository")
-public interface UserRoleRepository extends JpaRepository<UserRole, Serializable>{
+public interface UserRoleRepository extends JpaRepository<Rol, Serializable>{
 
-	public abstract UserRole findByUser(User user);	
+	public abstract Rol findByUser(User user);	
 }
+*/
