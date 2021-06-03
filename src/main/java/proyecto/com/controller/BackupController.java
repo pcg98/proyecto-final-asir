@@ -155,6 +155,7 @@ public class BackupController {
 			   //backupRepository.deleteByArchivo(archivo);
 			   archivo.setLocal(false);
 			   logService.debug(action, archivo.getArchivo());
+			   fileService.mantenceFiles(archivo);
 			}else {
 			   System.out.println("El fichero no puede ser borrado");
 			}

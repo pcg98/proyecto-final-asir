@@ -1,6 +1,7 @@
 package proyecto.com.controller;
 
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
@@ -81,10 +82,9 @@ public class UserController {
 	@RequestMapping(value = "/delete/{username}", method = RequestMethod.GET)
 	private String delete(@PathVariable("username")String user, HttpServletResponse response,
 			Model model) {
-		User usuario = userRepository.findByUsername(user);
-		Logger.info("Method: addUser --PARAMS user: " +usuario.toString());
-		userRepository.delete(usuario);
+		Logger.info("Method: delete --PARAMS user: " +user);
+		//userRepository.deleteById(user);
 		model.addAttribute("exito", 1);
 		return "redirect:/user/list";
-	}
+	} 
 }
