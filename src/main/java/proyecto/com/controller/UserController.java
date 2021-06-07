@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proyecto.com.repository.UserRepository;
@@ -78,12 +80,13 @@ public class UserController {
 		return "redirect:/user/list";
 	}
 	//Delete
-	@GetMapping(value = "/delete/{id}")
-	private String delete(@PathVariable("id")int user, HttpServletResponse response,
+	@RequestMapping(value = "/delete/{user_id}", method = RequestMethod.GET)
+	private String delete(@PathVariable("user_id")long user_id, HttpServletResponse response,
 			Model model) {
-		userServiceImpl.removeUser(user);
-		User usuario= userRepository.findById(user);
-		Logger.info("Method: user" +user);
+		Logger.info("Method: delete user " +user_id);
+		/*userServiceImpl.removeUser(user);
+		User usuario= userRepository.findById(user);*/
+		userRepository.deleteById(user_id);
 		model.addAttribute("exito", 1);
 		return "redirect:/user/list";
 	} 

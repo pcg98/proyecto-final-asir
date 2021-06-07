@@ -29,15 +29,6 @@
           font-size: 3.5rem;
         }
       }
-      .my-custom-scrollbar {
-		position: relative;
-		max-height: 500px;
-		overflow: auto;
-		min-height: 100px;
-	}
-	.table-wrapper-scroll-y {
-		display: block;
-	}
     </style>
 
     
@@ -200,8 +191,8 @@
 									<a sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/backup/restore/' + ${archivo.archivo}}">
 										<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
 									</a>
-									<a sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/backup/delete/' + ${archivo.id}}">
-										<button type="button" onclick="alerta()" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+									<a sec:authorize="hasAuthority('ROLE_ADMIN')">
+										<button type="button" th:onclick="'javascript:alerta_local(\'' + ${archivo.id} + '\');'" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 									</a>
 									<!-- Este boton es para descargar su esta en local pero no drive -->
 									<a th:if="${archivo.drive == false and archivo.local == true}" href="#" th:href="@{'/drive/upload/' + ${archivo.id}}">
@@ -215,8 +206,8 @@
 									<a href="#" th:href="@{'/drive/download/' + ${archivo.id}}">
 										<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></button>
 									</a>
-									<a sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/drive/delete/' + ${archivo.id}}">
-										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+									<a sec:authorize="hasAuthority('ROLE_ADMIN')">
+										<button type="button" th:onclick="'javascript:alerta_drive(\'' + ${archivo.id} + '\');'" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 									</a>
 									<!-- Este boton es para descargar si esta en drive pero no local -->
 									<a th:if="${archivo.drive == true and archivo.local == false}" href="#" th:href="@{'/drive/download/' + ${archivo.id}}">
@@ -243,17 +234,45 @@
 	<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
       <input hidden type="submit" value="Sign Out"/>
    </form> 
-	<script>
-		function alerta()
+   <!-- JQuery -->
+   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   
+	<script th:inline="javascript">
+	//Alerta para borrrar en local
+		function alerta_local(id)
 	    {
 		    var mensaje;
-		    var opcion = confirm("¿Desea eliminar la copia?");
+		    var opcion = confirm(`¿Desea eliminar la copia local ${id}`);
 		    if (opcion == true) {
-		        mensaje = "Copia eliminada";
+		    	$.ajax({  
+                    type : 'GET',  
+                    url : `/backup/delete/${id}`,
+                    success: window.location.reload(),
+                });
+		    	location.reload();
 			} else {
 			    mensaje = "Borrado cancelado";
 			}
-			document.getElementById("ejemplo").innerHTML = mensaje;
+		    location.reload();
+			//document.getElementById("ejemplo").innerHTML = mensaje;
+		}
+		//Alerta para borrrar en la nube
+		function alerta_drive(id)
+	    {
+		    var mensaje;
+		    var opcion = confirm(`¿Desea eliminar la copia en la nube ${id}`);
+		    if (opcion == true) {
+		    	$.ajax({  
+                    type : 'GET',  
+                    url : `/drive/delete/${id}`,
+                    success: window.location.reload(),
+                });
+		        location.reload();
+			} else {
+			    mensaje = "Borrado cancelado";
+			}
+		    location.reload();
+			//document.getElementById("ejemplo").innerHTML = mensaje;
 		}
 	</script>
 

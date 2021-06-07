@@ -23,11 +23,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
+@Table(name="User")
 public class User implements UserDetails{
     
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
+    private long id;
     private String username;
     private String password;
     @Enumerated(EnumType.STRING)
@@ -44,10 +45,10 @@ public class User implements UserDetails{
     }
 
     public User() {
-		super();
+    	
 	}
 
-	public User(Long id, String username, String password, Rol rol) {
+	public User(int id, String username, String password, Rol rol) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -55,7 +56,7 @@ public class User implements UserDetails{
 		this.rol = rol;
 	}
 
-	public User(Long id, String username, String password) {
+	public User(int id, String username, String password) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -67,11 +68,11 @@ public class User implements UserDetails{
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", rol=" + rol + "]";
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

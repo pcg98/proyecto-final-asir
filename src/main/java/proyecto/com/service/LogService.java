@@ -14,7 +14,7 @@ import proyecto.com.entity.User;
 import proyecto.com.controller.LoginController;
 import proyecto.com.entity.Backup;
 import proyecto.com.repository.LogRepository;
-
+//Esta clase nos sirve para guardar cosas en el log de la base de datos y mostrarlas en la consola too
 @Service("logService")
 public class LogService {
 	
