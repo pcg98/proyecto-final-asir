@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ import proyecto.com.repository.UserRepository;
 import proyecto.com.service.implementation.UsuarioServiceImpl;
 import proyecto.com.constant.ViewConstant;
 import proyecto.com.entity.User;
+import proyecto.com.model.ContactModel;
 import proyecto.com.model.UserModel;
 @Controller
 @RequestMapping("/user")
@@ -57,6 +59,8 @@ public class UserController {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_USER);
 		model.addAttribute("exito", exito);
 		model.addAttribute("error", error);
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		model.addAttribute("username", user.getUsername());
 		mav.addObject("users", userRepository.findAll());
 		return mav;
 	}
@@ -80,8 +84,8 @@ public class UserController {
 		return "redirect:/user/list";
 	}
 	//Delete
-	@RequestMapping(value = "/delete/{user_id}", method = RequestMethod.GET)
-	private String delete(@PathVariable("user_id")long user_id, HttpServletResponse response,
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public String delete(@PathVariable("id")long user_id, HttpServletResponse response,
 			Model model) {
 		Logger.info("Method: delete user " +user_id);
 		/*userServiceImpl.removeUser(user);
@@ -91,8 +95,28 @@ public class UserController {
 		return "redirect:/user/list";
 	} 
 	//Update
-	@PostMapping(value = "/update/{id}")
-	private String update() {
-		return "Hello moto";
+	@RequestMapping(value = "/form_update/{id}", method = RequestMethod.GET)
+	public String update(@PathVariable("id")long user_id, Model model) {
+		model.addAttribute("update_user", userRepository.getOne(user_id));
+		return "userform_update";
 	}
+	//Actualizar
+	@PostMapping("/update")
+	public String update_user(@ModelAttribute("update_user") User u_user, Model model) 
+	{
+		Logger.info("Method: delete user " +u_user.toString());
+		User user = userRepository.findByUsername(u_user.getUsername());
+		if(u_user.getPassword() != null) {
+			u_user.setPassword(pe.encode(u_user.getPassword()));
+			user.setPassword(u_user.getPassword());
+			user.setRol(u_user.getRol());
+			userRepository.flush();
+		}else {
+			user.setRol(u_user.getRol());
+			userRepository.flush();
+		}
+		model.addAttribute("exito", 1);
+		return "redirect:/user/list";
+	}
+	
 }

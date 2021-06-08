@@ -130,7 +130,7 @@ public class BackupController {
 		  }
 		//Restaurar backup
 		@RequestMapping(value = "/restore/{file_name}", method = RequestMethod.GET)
-		private String restore(@PathVariable("file_name")String archivo, HttpServletResponse response) throws IOException {
+		public String restore(@PathVariable("file_name")String archivo, HttpServletResponse response) throws IOException {
 			/*Ejecuccion en windows
 			Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_restauracion.bat "+ruta_backup);
 			*/
@@ -145,7 +145,7 @@ public class BackupController {
 		}
 		//Eliminar backup
 		@RequestMapping(value = "/delete/{file_id}", method = RequestMethod.GET)
-		private String delete(@PathVariable("file_id")int identificador, HttpServletResponse response) {
+		public String delete(@PathVariable("file_id")int identificador, HttpServletResponse response) {
 			Backup archivo = backupRepository.getOne(identificador);
 			String ruta_backup="./src/main/resources/backups/"+archivo.getArchivo();
 			//debug

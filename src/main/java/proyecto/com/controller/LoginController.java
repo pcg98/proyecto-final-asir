@@ -50,18 +50,18 @@ public class LoginController {
 		return "redirect:/backup/listar_backups";
 	}
 	//Aqui vamos cuando hacemos logout
-		@GetMapping("/disconect")
-		public String logout(){
-			Logger.info("Method: logout");
-			Logger.info("Return: login view" );
-			//Esta es la parte que controla el login
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			String username = "";
-			String url = "logout";
-			if(null != auth && auth.isAuthenticated()) {
-				username = auth.getName();
-			}
-			logRepository.save(new proyecto.com.entity.Log(new Date(), auth.getDetails().toString(), url,  username));
-			return "redirect:/logout";
+	@GetMapping("/disconect")
+	public String logout(){
+		Logger.info("Method: logout");
+		Logger.info("Return: login view" );
+		//Esta es la parte que controla el login
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = "";
+		String url = "logout";
+		if(null != auth && auth.isAuthenticated()) {
+			username = auth.getName();
 		}
+		logRepository.save(new proyecto.com.entity.Log(new Date(), auth.getDetails().toString(), url,  username));
+		return "redirect:/logout";
+	}
 }

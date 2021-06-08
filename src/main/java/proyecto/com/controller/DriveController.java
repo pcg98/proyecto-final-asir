@@ -41,7 +41,7 @@ public class DriveController {
 	
 	//Upload
 	@RequestMapping(value = "/upload/{id}", method = RequestMethod.GET)
-	private String upload(@PathVariable("id")int id, HttpServletResponse response) throws IOException {
+	public String upload(@PathVariable("id")int id, HttpServletResponse response) throws IOException {
 		Logger.info("Tarea programada ");
 		//Saco usuario
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -58,7 +58,7 @@ public class DriveController {
 	
 	//Delete
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-	private String delete(@PathVariable("id")int id, HttpServletResponse response) throws IOException {
+	public String delete(@PathVariable("id")int id, HttpServletResponse response) throws IOException {
 		Logger.info("Tarea programada ");
 		//Saco usuario
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -77,7 +77,7 @@ public class DriveController {
 	
 	//Download
 	@RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
-	private String download(@PathVariable("id")int id, HttpServletResponse response) throws IOException {
+	public String download(@PathVariable("id")int id, HttpServletResponse response) throws IOException {
 		Logger.info("Tarea programada ");
 		//Saco usuario
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -93,7 +93,7 @@ public class DriveController {
 	}
 	//Restore from drive
 	@RequestMapping(value = "/restore/{id}", method = RequestMethod.GET)
-	private String restore(@PathVariable("id")int id, HttpServletResponse response) throws IOException {
+	public String restore(@PathVariable("id")int id, HttpServletResponse response) throws IOException {
 		//Saco usuario
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Backup archivo = backupRepository.getOne(id);

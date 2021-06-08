@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import proyecto.com.controller.LoginController;
 import proyecto.com.repository.BackupRepository;
+import proyecto.com.repository.LogRepository;
 import proyecto.com.service.FileService;
 import proyecto.com.service.LogService;
 
@@ -33,6 +34,10 @@ public class Mantenimiento {
 	@Qualifier("fileService")
 	private FileService fileService;
 	
+	@Autowired
+	@Qualifier("logRepository")
+	private LogRepository logRepository;
+	
 	//Hace la copia todas las noches a las 12
 	@Scheduled(cron = "0 0 0 * * *")
 	public void copiaProgramada() throws IOException {
@@ -50,8 +55,10 @@ public class Mantenimiento {
 		String action = "new_backup";
 		logService.debug(action, fichero);
 	}
-	public void integridadBase() {
-		
+	//Limpiar registros de los Logs
+	private void limpiarLogs() {
+		logRepository.deleteAll();
 	}
+
 	
 }

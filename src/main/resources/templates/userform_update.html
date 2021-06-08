@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Manejo Base Datos - Add/modify Contact</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link href="#" th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="#" th:href="@{/css/login.css}" rel="stylesheet" />
+    <link href="#" th:href="@{/css/style.css}" rel="stylesheet" />
+    
+</head>
+<body>
+
+		<div class="container">
+			<h1>User Form</h1>
+			<br/>
+			<form action="#" th:action="@{/user/update}" th:object="${update_user}" method="post">
+				Username: <input type="text" th:field="*{username}" class="form-control" readonly></input>
+				<br/>
+				Password: <input type="password" th:field="*{password}" class="form-control"></input>
+				<br/>
+				Rol: <select th:field="*{rol}">
+					    <option th:value="'ROLE_USER'" th:text="User"></option>
+					    <option th:value="'ROLE_ADMIN'" th:text="Admin"></option>
+					</select>
+				<br/>
+				<br/>
+				<input type="hidden" th:value="*{id}">
+				<button class="btn btn-lg btn-primary btn-block" type="submit">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Accept
+				</button>
+			</form>
+			<a href="#" th:href="@{/user/list}">
+				<button class="btn btn-lg btn-primary btn-block" type="submit">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+				</button>
+			</a>
+		</div>
+
+</body>
+</html>
