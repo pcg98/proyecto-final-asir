@@ -72,12 +72,6 @@
 	
 	      <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
 	        <li>
-	          <a href="#" class="nav-link text-white">
-	            <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"/></svg>
-	            Home
-	          </a>
-	        </li>
-	        <li>
 	          <a href="#" th:href="@{/backup/listar_backups}" class="nav-link text-white">
 	            <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
 	            Backups
@@ -87,6 +81,12 @@
 	          <a href="#" th:href="@{/user/list}" class="nav-link text-secondary">
 	            <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"/></svg>
 	            Usuarios
+	          </a>
+	        </li>
+	        <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+	          <a href="#" th:href="@{/logs/list}" class="nav-link text-white">
+	            <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"/></svg>
+	            Logs
 	          </a>
 	        </li>
 	        <li>
@@ -141,10 +141,6 @@
 		<a href="#" th:href="@{/user/userform}">
 			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Add user</button>
 		</a>
-		
-		<form th:action="@{/logout}" method="POST">
-			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</button>
-		</form>
 	</div>
 	<script th:src="@{/assets/dist/js/bootstrap.bundle.min.js}"></script>
 	<!-- Para desconectarse, es codigo javascript -->

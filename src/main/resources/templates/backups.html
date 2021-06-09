@@ -84,7 +84,7 @@
 	          </a>
 	        </li>
 	        <li sec:authorize="hasAuthority('ROLE_ADMIN')">
-	          <a href="#" th:href="@{/backup/listar_backups}" class="nav-link text-white">
+	          <a href="#" th:href="@{/logs/list}" class="nav-link text-white">
 	            <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"/></svg>
 	            Logs
 	          </a>
@@ -103,7 +103,7 @@
 	 
 	<div class="container">
 	
-		<h1>Hello, <span th:text="${username}"></span>!</h1>
+		<h1>Hola, <span th:text="${username}"></span>!</h1>
 		<br/>
 		<div class="panel panel-default">
 			<div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -115,8 +115,8 @@
 							<th>Archivo</th>
 							<th>Usuario</th>
 							<th>Fecha</th>
-							<th>Action local</th>
-							<th>Action drive</th>
+							<th>Acción local</th>
+							<th>Acción drive</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -162,14 +162,12 @@
 				</table>
 			</div>
 		</div>
-		
+		<!-- Divs de control de errores y exito -->
+		<div th:if="${error != null}" class="alert alert-danger" role="alert">Error insertando usuarios</div>
+        <div th:if="${exito != null}" class="alert alert-info" role="alert">Exito en la operacion</div>
 		<a href="#" th:href="@{/backup/backup}">
 			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> Backup</button>
 		</a>
-		
-		<form th:action="@{/logout}" method="POST">
-			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</button>
-		</form>
 	</div>
 	<script th:src="@{/assets/dist/js/bootstrap.bundle.min.js}"></script>
 	<!-- Para desconectarse, es codigo javascript -->

@@ -75,11 +75,16 @@ public class UserController {
 	public String createUser(@ModelAttribute("User") User user,
 			Model model) {
 		Logger.info("Method: addUser --PARAMS user: " +user.toString()+ " Model: " +model);
+		//Encriptamos
 		user.setPassword(pe.encode(user.getPassword()));
-		if(null != userRepository.save(user)) {
-			model.addAttribute("exito", 1);
-		}else {
-			model.addAttribute("error", 1);
+		//COmprobamos que no haya nadie con ese nombre de usuario
+		if (null == userRepository.findByUsername(user.getUsername())) {
+			//Guardamos y comprobamos
+			if(null != userRepository.save(user)) {
+				model.addAttribute("exito", 1);
+			}else {
+				model.addAttribute("error", 1);
+			}
 		}
 		return "redirect:/user/list";
 	}

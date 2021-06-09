@@ -18,10 +18,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -72,7 +74,7 @@ public class BackupController {
     }
 		//Metodo para hacer Backup
 		@GetMapping("/backup")
-		public String backupContact() throws IOException {
+		public String backupContact(Model model) throws IOException {
 			//Nombre archivo
 			String fichero = new SimpleDateFormat("'copia_seguridad_'yyyy-MM-dd_hh-mm-ss'.sql'").format(new Date());
 			/*Windows
@@ -87,6 +89,8 @@ public class BackupController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			String username = auth.getName();
 			backupRepository.save(new proyecto.com.entity.Backup(fichero, username, new Date(),true,true));
+			
+			model.addAttribute("exito", true);
 			
 			String action = "new_backup";
 			logService.debug(action, fichero);
@@ -114,18 +118,13 @@ public class BackupController {
 			  }*/
 		//Metodo listar dir
 		@GetMapping("/listar_backups")
-		public ModelAndView listBackup() {
+		public ModelAndView listBackup(@RequestParam(name="exito", required=false) String exito, Model model, 
+				@RequestParam(name="error", required=false) String error) {
 			Logger.info("Tarea programada ");
 			ModelAndView mav = new ModelAndView(ViewConstant.VIEW_BACKUP);
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			mav.addObject("username", user.getUsername());
-			try {
-				mav.addObject("archivos", backupRepository.findAll());
-			}
-			//En caso de dar error
-			catch (Exception e) {
-				mav.addObject("archivos", "No se ha encontrado ningun archivo");
-			}
+			mav.addObject("archivos", backupRepository.findAllByOrderByFechaDesc());
 			return mav;
 		  }
 		//Restaurar backup

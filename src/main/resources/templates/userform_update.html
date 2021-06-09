@@ -1,45 +1,74 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-	<title>Manejo Base Datos - Add/modify Contact</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link href="#" th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="#" th:href="@{/css/login.css}" rel="stylesheet" />
-    <link href="#" th:href="@{/css/style.css}" rel="stylesheet" />
-    
+	<meta charset="utf-8">
+	<meta name="author" content="Kodinger">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Registro</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/my-login.css}">
 </head>
-<body>
+<body class="my-login-page">
+	<section class="h-100">
+		<div class="container h-100">
+			<div class="row justify-content-md-center h-100">
+				<div class="card-wrapper">
+					<div class="brand">
+						<img src="static/imgs/logo_cerros.png" th:src="@{/imgs/logo_cerros.png}" alt="logo" />
+					</div>
+					<div class="card fat">
+						<div class="card-body">
+							<h4 class="card-title">Registro</h4>
+							<form class="my-login-validation" novalidate="" action="#" th:action="@{/user/update}" th:object="${update_user}" method="post">
+								<div class="form-group">
+									<label for="username">Username</label>
+									<input id="username" type="text" th:field="*{username}" class="form-control" name="username" readonly>
+									<div class="invalid-feedback">
+										Invalid Username
+									</div>
+								</div>
 
-		<div class="container">
-			<h1>User Form</h1>
-			<br/>
-			<form action="#" th:action="@{/user/update}" th:object="${update_user}" method="post">
-				Username: <input type="text" th:field="*{username}" class="form-control" readonly></input>
-				<br/>
-				Password: <input type="password" th:field="*{password}" class="form-control"></input>
-				<br/>
-				Rol: <select th:field="*{rol}">
-					    <option th:value="'ROLE_USER'" th:text="User"></option>
-					    <option th:value="'ROLE_ADMIN'" th:text="Admin"></option>
-					</select>
-				<br/>
-				<br/>
-				<input type="hidden" th:value="*{id}">
-				<button class="btn btn-lg btn-primary btn-block" type="submit">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Accept
-				</button>
-			</form>
-			<a href="#" th:href="@{/user/list}">
-				<button class="btn btn-lg btn-primary btn-block" type="submit">
-					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
-				</button>
-			</a>
+								<div class="form-group">
+									<select class="form-control" th:field="*{rol}">
+										<option th:value="'0'" selected>Seleccionar rol de usuario</option>
+									    <option th:value="'ROLE_USER'" th:text="User"></option>
+									    <option th:value="'ROLE_ADMIN'" th:text="Admin"></option>
+									</select>
+									<div class="invalid-feedback">
+										Tienes que seleccionar un rol
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="password">Password</label>
+									<input id="password" th:field="*{password}" type="password" class="form-control" name="password" required data-eye>
+									<div class="invalid-feedback">
+										Password requerido
+									</div>
+								</div>
+
+								<input type="hidden" th:value="*{id}">
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary btn-block">
+										Registrar
+									</button>
+								</div>
+								<div class="form-group">
+								</div>
+							</form>
+							<button class="btn btn-danger btn-block" onclick="history.back()">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
+							</button>
+						</div>
+				</div>
+				<div class="footer">
+						Trabajo fin de grado 2021 &mdash; Pablo Cruz Garrido 
+				</div>
+			</div>
 		</div>
+	</section>
 
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

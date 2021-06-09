@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>Login gestion base de datos</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="css/my-login.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/my-login.css}">
 </head>
 
 <body class="my-login-page">
@@ -24,7 +24,7 @@
 								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 								<div class="form-group">
 									<label for="email">Username</label>
-									<input type="text" class="form-control" placeholder="Username" name="username" id="username" value="" required autofocus>
+									<input type="text" class="form-control" name="username" id="username" value="" required autofocus>
 									<div class="invalid-feedback">
 										Username is invalid
 									</div>

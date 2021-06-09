@@ -12,6 +12,7 @@ public class ViewConstant {
 	public static final String RESTORE_SC= "C:\\Users\\Pablo\\Desktop\\Grado\\Cursillos\\Spring\\proyecto\\demo\\src\\main\\resources\\scripts\\script_restauracion.bat";
 	//Rutas Vistas
 	public static final String VIEW_BACKUP ="backups";
+	public static final String VIEW_LOGS ="logs";
 	public static final String USER_FORM ="userform";
 	public static final String VIEW_USER ="users";
 	//Ruta absoluta proyecto
