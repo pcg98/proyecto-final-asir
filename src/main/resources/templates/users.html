@@ -67,7 +67,7 @@
 	  <div class="container">
 	    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" >
 	      <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-	        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+	        <img src="static/imgs/logo_cerros.ico" th:src="@{/imgs/logo_cerros.ico}" alt="logo" width="65" height="65">
 	      </a>
 	
 	      <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -103,8 +103,8 @@
 	
 	<!--Contenido-->
 	<div class="container">
-	
-		<h1>Hello, <span th:text="${username}"></span>!</h1>
+		<br/>
+		<h1>Panel de administracción de usuarios</h1>
 		<br/>
 		<div class="panel panel-default">
 			<div class="panel-heading"></div>
@@ -135,11 +135,14 @@
 				</tbody>
 			</table>
 		</div>
-		 <div th:if="${error != null}" class="alert alert-danger" role="alert">Error insertando usuarios</div>
+	 	<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)" th:if="${mensaje != null}"
+     		th:text="${mensaje}"
+     		class="alert">
+		</div>
         <div th:if="${exito != null}" class="alert alert-info" role="alert">Exito en la operacion</div>
 		
 		<a href="#" th:href="@{/user/userform}">
-			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Add user</button>
+			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Añadir usuarios</button>
 		</a>
 	</div>
 	<script th:src="@{/assets/dist/js/bootstrap.bundle.min.js}"></script>

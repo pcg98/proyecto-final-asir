@@ -3,6 +3,7 @@ package proyecto.com.controller;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import proyecto.com.repository.UserRepository;
 import proyecto.com.service.implementation.UsuarioServiceImpl;
@@ -43,15 +46,11 @@ public class UserController {
 	@Qualifier("userServiceImpl")
 	private UsuarioServiceImpl userServiceImpl;
 	
-	/*
-	@Autowired
-	@Qualifier("userRoleRepository")
-	private UserRoleRepository userRoleRepository;
-	*/
-	
 	private static final Log Logger = LogFactory.getLog(LoginController.class);
 	
 	BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
+	
+	
 	//Listar
 	@GetMapping("/list")
 	public ModelAndView listUsers(@RequestParam(name="exito", required=false) String exito, Model model, 
@@ -72,18 +71,28 @@ public class UserController {
 	}
 	//Crear
 	@PostMapping("/add-user")
-	public String createUser(@ModelAttribute("User") User user,
-			Model model) {
-		Logger.info("Method: addUser --PARAMS user: " +user.toString()+ " Model: " +model);
-		//Encriptamos
-		user.setPassword(pe.encode(user.getPassword()));
-		//COmprobamos que no haya nadie con ese nombre de usuario
-		if (null == userRepository.findByUsername(user.getUsername())) {
-			//Guardamos y comprobamos
-			if(null != userRepository.save(user)) {
-				model.addAttribute("exito", 1);
+	public String createUser(@Valid @ModelAttribute("User") User user,
+			BindingResult bindingResult, RedirectAttributes redirectAttrs) {
+		Logger.info("Method: add user " +user.toString());
+		//Con el Bindingresult hacemos las comprobacciones del form
+		if(bindingResult.hasErrors()) {
+			return "userform";
+		}else {
+			Logger.info("Method: addUser --PARAMS user: " +user.toString());
+			//Encriptamos password
+			user.setPassword(pe.encode(user.getPassword()));
+			//COmprobamos que no haya nadie con ese nombre de usuario
+			if (null == userRepository.findByUsername(user.getUsername())) {
+				//Guardamos y comprobamos
+				if(null != userRepository.save(user)) {
+					 redirectAttrs
+		                .addFlashAttribute("mensaje", "Agregado correctamente")
+		                .addFlashAttribute("clase", "success");
+				}
 			}else {
-				model.addAttribute("error", 1);
+				redirectAttrs
+                .addFlashAttribute("mensaje", "Username ya usado")
+                .addFlashAttribute("clase", "danger");
 			}
 		}
 		return "redirect:/user/list";

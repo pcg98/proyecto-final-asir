@@ -19,41 +19,29 @@
 					<div class="card fat">
 						<div class="card-body">
 							<h4 class="card-title">Registro</h4>
-							<form class="my-login-validation" novalidate="" action="#" th:action="@{/user/add-user}" th:object="${User}" method="post">
+							<form class="my-login-validation" action="#" th:action="@{/user/add-user}" th:object="${User}" method="post">
 								<div class="form-group">
 									<label for="username">Username</label>
-									<input id="username" type="text" th:field="*{username}" class="form-control" name="username" required autofocus>
-									<div class="invalid-feedback">
-										Invalid Username
+									<input id="username" type="text" th:field="*{username}" class="form-control" name="username" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''" >
+									<!-- Con esto mostramos los errores -->
+									<div class="invalid-feedback" th:errors="*{username}">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="password">Password</label>
+									<input id="password" th:field="*{password}" type="password" class="form-control" name="password" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" data-eye>
+									<div class="invalid-feedback" th:errors="*{password}">
 									</div>
 								</div>
 
 								<div class="form-group">
-									<select class="form-control" th:field="*{rol}">
-										<option th:value="'0'" selected>Seleccionar rol de usuario</option>
+									<select class="form-control" th:field="*{rol}" th:classappend="${#fields.hasErrors('rol')} ? 'is-invalid' : ''">
+										<option th:value="'null'" selected>Seleccionar rol de usuario</option>
 									    <option th:value="'ROLE_USER'" th:text="User"></option>
 									    <option th:value="'ROLE_ADMIN'" th:text="Admin"></option>
 									</select>
-									<div class="invalid-feedback">
-										Tienes que seleccionar un rol
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="password">Password</label>
-									<input id="password" th:field="*{password}" type="password" class="form-control" name="password" required data-eye>
-									<div class="invalid-feedback">
-										Password requerido
-									</div>
-								</div>
-
-								<div class="form-group">
-									<div class="custom-checkbox custom-control">
-										<input type="checkbox" name="agree" id="agree" class="custom-control-input" required="">
-										<label for="agree" class="custom-control-label">I agree to the <a href="#">Terms and Conditions</a></label>
-										<div class="invalid-feedback">
-											You must agree with our Terms and Conditions
-										</div>
+									<div class="invalid-feedback"> Debes especificar el rol
 									</div>
 								</div>
 
@@ -65,9 +53,11 @@
 								<div class="form-group">
 								</div>
 							</form>
-							<button class="btn btn-danger btn-block" onclick="history.back()">
-								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
-							</button>
+							<a href="#" th:href="@{/user/list}">
+								<button class="btn btn-danger btn-block" >
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
+								</button>
+							</a>
 						</div>
 					</div>
 					<div class="footer">
@@ -80,5 +70,6 @@
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	
 </body>
 </html>

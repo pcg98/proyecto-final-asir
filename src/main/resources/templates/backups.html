@@ -67,7 +67,7 @@
 	  <div class="container">
 	    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" >
 	      <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-	        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+	        <img src="static/imgs/logo_cerros.ico" th:src="@{/imgs/logo_cerros.ico}" alt="logo" width="65" height="65">
 	      </a>
 	
 	      <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -102,8 +102,8 @@
 	
 	 
 	<div class="container">
-	
-		<h1>Hola, <span th:text="${username}"></span>!</h1>
+		<br/>
+		<h1>Hola <span th:text="${username}"></span>!</h1>
 		<br/>
 		<div class="panel panel-default">
 			<div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -136,7 +136,7 @@
 									<a sec:authorize="hasAuthority('ROLE_ADMIN')">
 										<button type="button" th:onclick="'javascript:alerta_local(\'' + ${archivo.id} + '\');'" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 									</a>
-									<!-- Este boton es para descargar su esta en local pero no drive -->
+									<!-- Este boton es para descargar si esta en local pero no drive -->
 									<a th:if="${archivo.drive == false and archivo.local == true}" href="#" th:href="@{'/drive/upload/' + ${archivo.id}}">
 										<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span></button>
 									</a>
@@ -153,7 +153,7 @@
 									</a>
 									<!-- Este boton es para descargar si esta en drive pero no local -->
 									<a th:if="${archivo.drive == true and archivo.local == false}" href="#" th:href="@{'/drive/download/' + ${archivo.id}}">
-										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span></button>
+										<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span></button>
 									</a>
 								</span>
 							</td>
@@ -176,7 +176,15 @@
    </form> 
    <!-- JQuery -->
    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-   
+   	
+   <!-- La tabla -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+	<script>
+		$(document).ready( function () {
+		    $('#dtDynamicVerticalScrollExample').DataTable();
+		} );
+	</script>
 	<script th:inline="javascript">
 	//Alerta para borrrar en local
 		function alerta_local(id)

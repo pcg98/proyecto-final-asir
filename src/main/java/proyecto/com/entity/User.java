@@ -17,6 +17,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,8 +33,16 @@ public class User implements UserDetails{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private long id;
+    
+    @NotBlank(message="Debes especificar el usuario")
+    //@Size(min=2, message="Usuario debe ser mas largo")
     private String username;
+    
+    @NotBlank(message="Debes especificar la contraseña")
+    //@Size(min=2, message="La contraseña debe tener mas longitud")
     private String password;
+    
+    @NotNull(message="Debes especificar el rol")
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
