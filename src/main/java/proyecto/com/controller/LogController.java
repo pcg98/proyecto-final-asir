@@ -33,6 +33,11 @@ public class LogController {
 	@Qualifier("logRepository")
 	private LogRepository logRepository;
 	
+	//Logger
+	@Autowired
+	@Qualifier("logService")
+	private LogService logService;
+		
 	//Listar todos los logs
 	@GetMapping("/list")
 	public ModelAndView listUsers(@RequestParam(name="exito", required=false) String exito, Model model, 
@@ -45,36 +50,25 @@ public class LogController {
 		mav.addObject("logs", logRepository.findAllByOrderByDateDesc());
 		return mav;
 	}
-	//borrar una
-	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable("id")int id, HttpServletResponse response, Model model) {
-		Logger.info("Method: delete log");
-		/*userServiceImpl.removeUser(user);
-		User usuario= userRepository.findById(user);*/
-		logRepository.deleteById(id);
-		model.addAttribute("exito", 1);
-		return "redirect:/logs/list";
-	}
 	//Borrar todos
 	@GetMapping("/delete_all")
 	public String deleteAll(HttpServletResponse response, Model model) {
 		Logger.info("Method: delete all logs ");
 		/*userServiceImpl.removeUser(user);
 		User usuario= userRepository.findById(user);*/
-		logRepository.deleteAll();
+		logRepository.deleteLogs();
+		logService.debug("borrar_todos");
 		model.addAttribute("exito", 1);
 		return "redirect:/logs/list";
 	}
-	//Borrar Varios
-	@PostMapping("/delete_some")
-	public String delete_some(HttpServletResponse response, Model model, List<Long> ids) {
-		Logger.info("Method: delete all logs ");
+	//Borrar antiguos
+	@GetMapping("/delete_older")
+	public String delete_olders(HttpServletResponse response, Model model) {
+		Logger.info("Method: delete older logs ");
 		/*userServiceImpl.removeUser(user);
 		User usuario= userRepository.findById(user);*/
-		for(long id : ids) {
-			logRepository.deleteById(id);
-		}
-		
+		logRepository.deleteOlderLogs();
+		logService.debug("borrar_antiguos");
 		model.addAttribute("exito", 1);
 		return "redirect:/logs/list";
 	}

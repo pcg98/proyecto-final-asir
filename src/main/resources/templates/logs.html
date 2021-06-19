@@ -130,8 +130,12 @@
 			</div>
 		</div>
 		<!-- Divs de control de errores y exito -->
-		<div th:if="${error != null}" class="alert alert-danger" role="alert">Error insertando usuarios</div>
+		<div th:if="${error != null}" class="alert alert-danger" role="alert">Error eliminando logs</div>
         <div th:if="${exito != null}" class="alert alert-info" role="alert">Exito en la operacion</div>
+        <a href="#" th:href="@{/logs/delete_older}">
+			<button class="btn btn-lg btn-danger btn-block" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar registros antiguos (mas de dos años)</button>
+		</a>
+		<br/><br/>
 		<a href="#" th:href="@{/logs/delete_all}">
 			<button class="btn btn-lg btn-danger btn-block" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar todo</button>
 		</a>
