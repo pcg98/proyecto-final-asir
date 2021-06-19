@@ -20,4 +20,5 @@ public interface LogRepository extends JpaRepository<Log, Serializable>{
 	void deleteLog(Date fecha_a, Date fecha_b);
 	
 	public List<Log> findAllByOrderByDateDesc();
+
 }

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import proyecto.com.constant.ViewConstant;
 import proyecto.com.entity.Backup;
@@ -58,11 +59,11 @@ public class BackupController {
 		response.setContentType("text/sql;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=\""+archivo+"\"");
         
-        String action = "download_local";
+        String action = "descargar_local";
 		logService.debug(action, archivo);
 		
 	    InputStream inputStream = new FileInputStream(new File("src/main/resources/backups/"+archivo));
-	    Logger.info("Method: Dowload"+archivo);
+	    Logger.info("Method: Dowload "+archivo);
 	    return outputStream -> {
 	        int nRead;
 	        byte[] data = new byte[1024];
@@ -74,7 +75,7 @@ public class BackupController {
     }
 		//Metodo para hacer Backup
 		@GetMapping("/backup")
-		public String backupContact(Model model) throws IOException {
+		public String backupContact(Model model, RedirectAttributes redirectAttrs) throws IOException {
 			//Nombre archivo
 			String fichero = new SimpleDateFormat("'copia_seguridad_'yyyy-MM-dd_hh-mm-ss'.sql'").format(new Date());
 			/*Windows
@@ -90,9 +91,11 @@ public class BackupController {
 			String username = auth.getName();
 			backupRepository.save(new proyecto.com.entity.Backup(fichero, username, new Date(),true,true));
 			
-			model.addAttribute("exito", true);
+			redirectAttrs
+            .addFlashAttribute("mensaje", "Backup creado exitosamente")
+            .addFlashAttribute("clase", "success");
 			
-			String action = "new_backup";
+			String action = "nueva_backup";
 			logService.debug(action, fichero);
 			
 			return "redirect:/backup/listar_backups";
@@ -129,7 +132,8 @@ public class BackupController {
 		  }
 		//Restaurar backup
 		@RequestMapping(value = "/restore/{file_name}", method = RequestMethod.GET)
-		public String restore(@PathVariable("file_name")String archivo, HttpServletResponse response) throws IOException {
+		public String restore(@PathVariable("file_name")String archivo, HttpServletResponse response,
+				RedirectAttributes redirectAttrs) throws IOException {
 			/*Ejecuccion en windows
 			Runtime.getRuntime().exec("cmd /c start "+ViewConstant.PROYECTO+"src/main/resources/scripts/script_restauracion.bat "+ruta_backup);
 			*/
@@ -137,18 +141,22 @@ public class BackupController {
 			ProcessBuilder pb = new ProcessBuilder("src/main/resources/scripts/script_restauracion.sh", archivo);
 			pb.start();
 			
-			String action = "upload_drive";
+			redirectAttrs
+            .addFlashAttribute("mensaje", "Base restaurada correctamente")
+            .addFlashAttribute("clase", "success");
+			
+			String action = "restaurar_base";
 			logService.debug(action, archivo);
 			
 			return "redirect:/backup/listar_backups";
 		}
 		//Eliminar backup
 		@RequestMapping(value = "/delete/{file_id}", method = RequestMethod.GET)
-		public String delete(@PathVariable("file_id")int identificador, HttpServletResponse response) {
+		public String delete(@PathVariable("file_id")int identificador, HttpServletResponse response, RedirectAttributes redirectAttrs) {
 			Backup archivo = backupRepository.getOne(identificador);
 			String ruta_backup="./src/main/resources/backups/"+archivo.getArchivo();
 			//debug
-			String action = "delete_local_backup";
+			String action = "borrar_local_backup";
 			File fichero = new File(ruta_backup);
 			if (fichero.delete()) {
 			   System.out.println("El fichero ha sido borrado satisfactoriamente");
@@ -156,8 +164,13 @@ public class BackupController {
 			   archivo.setLocal(false);
 			   logService.debug(action, archivo.getArchivo());
 			   fileService.mantenceFiles(archivo);
+			   redirectAttrs
+               .addFlashAttribute("mensaje", "Backup eliminado correctamente")
+               .addFlashAttribute("clase", "success");
 			}else {
-			   System.out.println("El fichero no puede ser borrado");
+				redirectAttrs
+                .addFlashAttribute("mensaje", "Problema al borrar backup")
+                .addFlashAttribute("clase", "danger");
 			}
 			return "redirect:/backup/listar_backups";
 		}

@@ -1,5 +1,7 @@
 package proyecto.com.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,14 +45,37 @@ public class LogController {
 		mav.addObject("logs", logRepository.findAllByOrderByDateDesc());
 		return mav;
 	}
-	//Delete
-	@GetMapping("/delete")
-	public String delete(HttpServletResponse response, Model model) {
+	//borrar una
+	@GetMapping("/delete/{id}")
+	public String delete(@PathVariable("id")int id, HttpServletResponse response, Model model) {
+		Logger.info("Method: delete log");
+		/*userServiceImpl.removeUser(user);
+		User usuario= userRepository.findById(user);*/
+		logRepository.deleteById(id);
+		model.addAttribute("exito", 1);
+		return "redirect:/logs/list";
+	}
+	//Borrar todos
+	@GetMapping("/delete_all")
+	public String deleteAll(HttpServletResponse response, Model model) {
 		Logger.info("Method: delete all logs ");
 		/*userServiceImpl.removeUser(user);
 		User usuario= userRepository.findById(user);*/
 		logRepository.deleteAll();
 		model.addAttribute("exito", 1);
 		return "redirect:/logs/list";
-	} 
+	}
+	//Borrar Varios
+	@PostMapping("/delete_some")
+	public String delete_some(HttpServletResponse response, Model model, List<Long> ids) {
+		Logger.info("Method: delete all logs ");
+		/*userServiceImpl.removeUser(user);
+		User usuario= userRepository.findById(user);*/
+		for(long id : ids) {
+			logRepository.deleteById(id);
+		}
+		
+		model.addAttribute("exito", 1);
+		return "redirect:/logs/list";
+	}
 }

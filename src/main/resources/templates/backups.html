@@ -127,17 +127,17 @@
 							<!--Local -->
 							<td>
 								<span th:if="${archivo.local}">
-									<a href="#" th:href="@{'/backup/download/' + ${archivo.archivo}}">
-										<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></button>
+									<a class="nada" href="#" th:href="@{'/backup/download/' + ${archivo.archivo}}">
+										<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true" /></button>
 									</a>
-									<a sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/backup/restore/' + ${archivo.archivo}}">
-										<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span></button>
+									<a class="nada" sec:authorize="hasAuthority('ROLE_ADMIN')" href="#" th:href="@{'/backup/restore/' + ${archivo.archivo}}">
+										<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-upload" aria-hidden="true" /></button>
 									</a>
-									<a sec:authorize="hasAuthority('ROLE_ADMIN')">
+									<a class="nada" sec:authorize="hasAuthority('ROLE_ADMIN')">
 										<button type="button" th:onclick="'javascript:alerta_local(\'' + ${archivo.id} + '\');'" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 									</a>
 									<!-- Este boton es para descargar si esta en local pero no drive -->
-									<a th:if="${archivo.drive == false and archivo.local == true}" href="#" th:href="@{'/drive/upload/' + ${archivo.id}}">
+									<a class="nada" th:if="${archivo.drive == false and archivo.local == true}" href="#" th:href="@{'/drive/upload/' + ${archivo.id}}">
 										<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span></button>
 									</a>
 								</span>
@@ -145,14 +145,14 @@
 							<!--Nube -->
 							<td>
 								<span th:if="${archivo.drive}">
-									<a href="#" th:href="@{'/drive/download/' + ${archivo.id}}">
+									<a class="nada" href="#" th:href="@{'/drive/download/' + ${archivo.id}}">
 										<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></button>
 									</a>
-									<a sec:authorize="hasAuthority('ROLE_ADMIN')">
+									<a class="nada" sec:authorize="hasAuthority('ROLE_ADMIN')">
 										<button type="button" th:onclick="'javascript:alerta_drive(\'' + ${archivo.id} + '\');'" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 									</a>
 									<!-- Este boton es para descargar si esta en drive pero no local -->
-									<a th:if="${archivo.drive == true and archivo.local == false}" href="#" th:href="@{'/drive/download/' + ${archivo.id}}">
+									<a class="nada" th:if="${archivo.drive == true and archivo.local == false}" href="#" th:href="@{'/drive/download/' + ${archivo.id}}">
 										<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span></button>
 									</a>
 								</span>
@@ -163,8 +163,10 @@
 			</div>
 		</div>
 		<!-- Divs de control de errores y exito -->
-		<div th:if="${error != null}" class="alert alert-danger" role="alert">Error insertando usuarios</div>
-        <div th:if="${exito != null}" class="alert alert-info" role="alert">Exito en la operacion</div>
+		<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)" th:if="${mensaje != null}"
+     		th:text="${mensaje}"
+     		class="alert">
+		</div>
 		<a href="#" th:href="@{/backup/backup}">
 			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> Backup</button>
 		</a>
@@ -182,7 +184,28 @@
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 	<script>
 		$(document).ready( function () {
-		    $('#dtDynamicVerticalScrollExample').DataTable();
+		    $('#dtDynamicVerticalScrollExample').DataTable({
+		        language: {
+		            "decimal": "",
+		            "emptyTable": "No hay información",
+		            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+		            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+		            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+		            "infoPostFix": "",
+		            "thousands": ",",
+		            "lengthMenu": "Mostrar _MENU_ Entradas",
+		            "loadingRecords": "Cargando...",
+		            "processing": "Procesando...",
+		            "search": "Buscar:",
+		            "zeroRecords": "Sin resultados encontrados",
+		            "paginate": {
+		                "first": "Primero",
+		                "last": "Ultimo",
+		                "next": "Siguiente",
+		                "previous": "Anterior"
+		            }
+		        }
+			} );
 		} );
 	</script>
 	<script th:inline="javascript">

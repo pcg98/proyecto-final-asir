@@ -100,12 +100,14 @@ public class UserController {
 	//Delete
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String delete(@PathVariable("id")long user_id, HttpServletResponse response,
-			Model model) {
+			Model model, RedirectAttributes redirectAttrs) {
 		Logger.info("Method: delete user " +user_id);
 		/*userServiceImpl.removeUser(user);
 		User usuario= userRepository.findById(user);*/
 		userRepository.deleteById(user_id);
-		model.addAttribute("exito", 1);
+		redirectAttrs
+        .addFlashAttribute("mensaje", "Eliminado correctamente")
+        .addFlashAttribute("clase", "success");
 		return "redirect:/user/list";
 	} 
 	//Update
@@ -116,11 +118,11 @@ public class UserController {
 	}
 	//Actualizar
 	@PostMapping("/update")
-	public String update_user(@ModelAttribute("update_user") User u_user, Model model) 
+	public String update_user(@ModelAttribute("update_user") User u_user, Model model, RedirectAttributes redirectAttrs) 
 	{
 		Logger.info("Method: delete user " +u_user.toString());
 		User user = userRepository.findByUsername(u_user.getUsername());
-		if(u_user.getPassword() != null) {
+		if(!u_user.getPassword().isEmpty()) {
 			u_user.setPassword(pe.encode(u_user.getPassword()));
 			user.setPassword(u_user.getPassword());
 			user.setRol(u_user.getRol());
@@ -129,7 +131,9 @@ public class UserController {
 			user.setRol(u_user.getRol());
 			userRepository.flush();
 		}
-		model.addAttribute("exito", 1);
+		redirectAttrs
+        .addFlashAttribute("mensaje", "Modificado correctamente")
+        .addFlashAttribute("clase", "success");
 		return "redirect:/user/list";
 	}
 	

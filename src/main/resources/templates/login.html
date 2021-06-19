@@ -23,19 +23,19 @@
 							<form class="form-signin" action="#" th:action="@{/logincheck}" method="POST" novalidate="">
 								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 								<div class="form-group">
-									<label for="email">Username</label>
+									<label for="email">Usuario</label>
 									<input type="text" class="form-control" name="username" id="username" value="" required autofocus>
 									<div class="invalid-feedback">
-										Username es requerido
+										Usuario es requerido
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label for="password">Password
+									<label for="password">Contraseña
 									</label>
 									<input id="password" type="password" class="form-control" name="password" required data-eye>
 								    <div class="invalid-feedback">
-								    	Password es requerido
+								    	Contraseña es requerido
 							    	</div>
 								</div>
 
@@ -52,8 +52,8 @@
 									</button>
 								</div>
 							</form>
-							<div th:if="${error != null}" class="mt-4 text-center alert alert-danger" role="alert">Invalid username or password</div>
-							<div th:if="${logout != null}" class="mt-4 text-center alert alert-info" role="alert">Logout succesfully</div>
+							<div th:if="${error != null}" class="mt-4 text-center alert alert-danger" role="alert">Contraseña o password equivocados</div>
+							<div th:if="${logout != null}" class="mt-4 text-center alert alert-info" role="alert">Logout correcto</div>
 						</div>
 					</div>
 					<div class="footer">

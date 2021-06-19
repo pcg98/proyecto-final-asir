@@ -21,7 +21,7 @@
 							<h4 class="card-title">Registro</h4>
 							<form class="my-login-validation" action="#" th:action="@{/user/add-user}" th:object="${User}" method="post">
 								<div class="form-group">
-									<label for="username">Username</label>
+									<label for="username">Nombre usuario</label>
 									<input id="username" type="text" th:field="*{username}" class="form-control" name="username" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''" >
 									<!-- Con esto mostramos los errores -->
 									<div class="invalid-feedback" th:errors="*{username}">
@@ -29,7 +29,7 @@
 								</div>
 								
 								<div class="form-group">
-									<label for="password">Password</label>
+									<label for="password">Contraseña</label>
 									<input id="password" th:field="*{password}" type="password" class="form-control" name="password" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" data-eye>
 									<div class="invalid-feedback" th:errors="*{password}">
 									</div>

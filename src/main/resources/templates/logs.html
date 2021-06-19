@@ -103,7 +103,7 @@
 	 
 	<div class="container">
 		<br/>
-		<h1>Panel administracción de logs</h1>
+		<h1>Auditoria de logs</h1>
 		<br/>
 		<div class="panel panel-default">
 			<div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -132,13 +132,10 @@
 		<!-- Divs de control de errores y exito -->
 		<div th:if="${error != null}" class="alert alert-danger" role="alert">Error insertando usuarios</div>
         <div th:if="${exito != null}" class="alert alert-info" role="alert">Exito en la operacion</div>
-		<a href="#" th:href="@{/logs/delete}">
+		<a href="#" th:href="@{/logs/delete_all}">
 			<button class="btn btn-lg btn-danger btn-block" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar todo</button>
 		</a>
 		
-		<form th:action="@{/logout}" method="POST">
-			<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</button>
-		</form>
 	</div>
 	<script th:src="@{/assets/dist/js/bootstrap.bundle.min.js}"></script>
 	<!-- Para desconectarse, es codigo javascript -->
@@ -153,10 +150,30 @@
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 	<script>
 		$(document).ready( function () {
-		    $('#dtDynamicVerticalScrollExample').DataTable();
+		    $('#dtDynamicVerticalScrollExample').DataTable({
+		        language: {
+		            "decimal": "",
+		            "emptyTable": "No hay información",
+		            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+		            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+		            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+		            "infoPostFix": "",
+		            "thousands": ",",
+		            "lengthMenu": "Mostrar _MENU_ Entradas",
+		            "loadingRecords": "Cargando...",
+		            "processing": "Procesando...",
+		            "search": "Buscar:",
+		            "zeroRecords": "Sin resultados encontrados",
+		            "paginate": {
+		                "first": "Primero",
+		                "last": "Ultimo",
+		                "next": "Siguiente",
+		                "previous": "Anterior"
+		            }
+		        }
+			} );
 		} );
 	</script>
-	
 	<script th:inline="javascript">
 	//Alerta para borrrar en local
 		function alerta_local(id)

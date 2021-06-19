@@ -32,6 +32,9 @@ h1 {
   vertical-align: -.125em;
   fill: currentColor;
 }
+.nada {
+  text-decoration: none;
+}
 
 .text-small {
   font-size: 85%;
