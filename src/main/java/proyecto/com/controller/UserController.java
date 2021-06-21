@@ -28,10 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import proyecto.com.repository.UserRepository;
-import proyecto.com.service.implementation.UsuarioServiceImpl;
 import proyecto.com.constant.ViewConstant;
 import proyecto.com.entity.User;
-import proyecto.com.model.ContactModel;
 import proyecto.com.model.UserModel;
 @Controller
 @RequestMapping("/user")
@@ -42,9 +40,7 @@ public class UserController {
 	@Qualifier("userRepository")
 	private UserRepository userRepository;
 	
-	@Autowired
-	@Qualifier("userServiceImpl")
-	private UsuarioServiceImpl userServiceImpl;
+
 	
 	private static final Log Logger = LogFactory.getLog(LoginController.class);
 	
